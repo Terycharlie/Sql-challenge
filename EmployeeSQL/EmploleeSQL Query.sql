@@ -6,18 +6,18 @@ CREATE TABLE titles(
 select * from titles;
 
 CREATE TABLE departments(
-	dept_no VARCHAR PRIMARY KEY,
-	dept_name VARCHAR
+	dept_no VARCHAR(4) PRIMARY KEY,
+	dept_name VARCHAR(25)
 );
 select * from departments;
 
 CREATE TABLE employees(
 	emp_no INT PRIMARY KEY,
-	emp_title_id VARCHAR NOT NULL,
+	emp_title_id VARCHAR (5) NOT NULL,
 	birth_date VARCHAR NOT NULL,
-	first_name VARCHAR NOT NULL,
-	last_name VARCHAR NOT NULL,
-	sex VARCHAR NOT NULL,
+	first_name VARCHAR NOT(25) NULL,
+	last_name VARCHAR NOT(25) NULL,
+	sex VARCHAR NOT(1) NULL,
 	hire_date VARCHAR NOT NULL,
 	FOREIGN KEY (emp_title_id) REFERENCES titles(title_id)
 );
@@ -28,7 +28,7 @@ select * from employees;
 
 CREATE TABLE dept_emp(
 	emp_no INT NOT NULL,
-	dept_no VARCHAR NOT NULL,
+	dept_no VARCHAR (4) NOT NULL,
 	PRIMARY KEY (emp_no, dept_no),
 	FOREIGN KEY (emp_no) REFERENCES employees(emp_no),
 	FOREIGN KEY (dept_no) REFERENCES departments(dept_no)
@@ -43,7 +43,8 @@ CREATE TABLE salaries(
 
 select * from salaries
 
--- The dept_manager table is many-many relationship, so two primary keys are needed
+
+-- setup two primary keys since the dept_manager table has many-many relationship,
 CREATE TABLE dept_manager(
 	dept_no VARCHAR NOT NULL,
 	emp_no INT NOT NULL,
@@ -82,7 +83,8 @@ WHERE first_name = 'Hercules' and last_name LIKE 'B%';
 
 -- 6. List all employees in the Sales department, including their employee number, last name, first name, and department name.
 SELECT * FROM departments;
--- The department number of Sales department is d007
+-- Sales department = dept_no d007
+
 SELECT employees.emp_no, employees.last_name, employees.first_name, departments.dept_name
 FROM employees
 JOIN dept_emp ON employees.emp_no = dept_emp.emp_no
@@ -91,7 +93,8 @@ WHERE departments.dept_no = 'd007';
 
 -- 7. List all employees in the Sales and Development departments, including their employee number, last name, first name, and department name.
 SELECT * FROM departments;
--- The department numbers of Sales and Development departments are d007 and d005
+-- Development  department = dept_no d005
+
 SELECT employees.emp_no, employees.last_name, employees.first_name, departments.dept_name
 FROM employees
 JOIN dept_emp ON employees.emp_no = dept_emp.emp_no
